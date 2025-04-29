@@ -3,10 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://jeevasusej.github.io/bank-portal-test-suite",
+  "homepage": "https://lovableaiprojects.github.io/bank-portal-test-suite",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --base=./",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
