@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Asterisk } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { KYCFormData } from "@/lib/types";
 
@@ -123,11 +122,18 @@ const KYCForm: React.FC<KYCFormProps> = ({ onFormSubmit }) => {
     setErrors({});
   };
 
+  // Required field indicator component
+  const RequiredFieldIndicator = () => (
+    <Asterisk className="h-3 w-3 text-red-500 inline-block ml-1" />
+  );
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6 pb-6" id="kyc-form">
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="fullName" className="text-sm font-medium">Full Name</Label>
+          <Label htmlFor="fullName" className="text-sm font-medium">
+            Full Name <RequiredFieldIndicator />
+          </Label>
           <Input
             id="fullName"
             name="fullName"
@@ -141,7 +147,9 @@ const KYCForm: React.FC<KYCFormProps> = ({ onFormSubmit }) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-sm font-medium">Email Address</Label>
+          <Label htmlFor="email" className="text-sm font-medium">
+            Email Address <RequiredFieldIndicator />
+          </Label>
           <Input
             id="email"
             name="email"
@@ -156,7 +164,9 @@ const KYCForm: React.FC<KYCFormProps> = ({ onFormSubmit }) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="mobile" className="text-sm font-medium">Mobile Number</Label>
+          <Label htmlFor="mobile" className="text-sm font-medium">
+            Mobile Number <RequiredFieldIndicator />
+          </Label>
           <Input
             id="mobile"
             name="mobile"
@@ -171,7 +181,9 @@ const KYCForm: React.FC<KYCFormProps> = ({ onFormSubmit }) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="dob" className="text-sm font-medium">Date of Birth</Label>
+          <Label htmlFor="dob" className="text-sm font-medium">
+            Date of Birth <RequiredFieldIndicator />
+          </Label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -208,7 +220,9 @@ const KYCForm: React.FC<KYCFormProps> = ({ onFormSubmit }) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="address" className="text-sm font-medium">Address</Label>
+          <Label htmlFor="address" className="text-sm font-medium">
+            Address <RequiredFieldIndicator />
+          </Label>
           <Textarea
             id="address"
             name="address"
@@ -223,7 +237,9 @@ const KYCForm: React.FC<KYCFormProps> = ({ onFormSubmit }) => {
         </div>
 
         <div className="space-y-2">
-          <Label className="text-sm font-medium">Gender</Label>
+          <Label className="text-sm font-medium">
+            Gender <RequiredFieldIndicator />
+          </Label>
           <RadioGroup
             value={formData.gender}
             onValueChange={(value) => {
@@ -293,7 +309,9 @@ const KYCForm: React.FC<KYCFormProps> = ({ onFormSubmit }) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="accountType" className="text-sm font-medium">Account Type</Label>
+          <Label htmlFor="accountType" className="text-sm font-medium">
+            Account Type <RequiredFieldIndicator />
+          </Label>
           <Select 
             value={formData.accountType} 
             onValueChange={(value: 'savings' | 'current' | 'salary' | 'nri') => {
