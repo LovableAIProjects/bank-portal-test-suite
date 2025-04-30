@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -7,7 +6,6 @@ import DocumentUpload from "@/components/DocumentUpload";
 import Confirmation from "@/components/Confirmation";
 import DocumentDownload from "@/components/DocumentDownload";
 import { KYCFormData, UploadedDocument, DocumentRecord } from '@/lib/types';
-import { Toaster } from 'sonner';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("kyc");
@@ -114,8 +112,6 @@ const Index = () => {
           &copy; 2025 Banking Portal - KYC and Document Management Demo
         </div>
       </footer>
-
-      <Toaster position="top-right" />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, X } from 'lucide-react';
 import { UploadedDocument } from '@/lib/types';
+import { toast } from 'sonner';
 
 interface DocumentUploadProps {
   onDocumentsUploaded: (documents: UploadedDocument[]) => void;
@@ -22,10 +23,17 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onDocumentsUploaded }) 
   const aadhaarInputRef = useRef<HTMLInputElement>(null);
   const panInputRef = useRef<HTMLInputElement>(null);
 
+  const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB in bytes
+
   // Helper to validate file type
   const isValidFileType = (file: File) => {
     const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
     return validTypes.includes(file.type);
+  };
+
+  // Helper to validate file size
+  const isValidFileSize = (file: File) => {
+    return file.size <= MAX_FILE_SIZE;
   };
 
   const handleAadhaarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +44,11 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onDocumentsUploaded }) 
         setErrors({ ...errors, aadhaar: 'Only PDF, JPG, or PNG files are allowed' });
         setAadhaarFile(null);
         e.target.value = '';
+      } else if (!isValidFileSize(file)) {
+        setErrors({ ...errors, aadhaar: 'File size must be less than 2MB' });
+        setAadhaarFile(null);
+        e.target.value = '';
+        toast.error('Aadhaar file size exceeds 2MB limit');
       } else {
         setAadhaarFile(file);
         setErrors({ ...errors, aadhaar: '' });
@@ -51,6 +64,11 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onDocumentsUploaded }) 
         setErrors({ ...errors, pan: 'Only PDF, JPG, or PNG files are allowed' });
         setPanFile(null);
         e.target.value = '';
+      } else if (!isValidFileSize(file)) {
+        setErrors({ ...errors, pan: 'File size must be less than 2MB' });
+        setPanFile(null);
+        e.target.value = '';
+        toast.error('PAN file size exceeds 2MB limit');
       } else {
         setPanFile(file);
         setErrors({ ...errors, pan: '' });
@@ -147,10 +165,14 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onDocumentsUploaded }) 
                   <div className="flex items-center justify-center space-x-2">
                     <Check className="h-5 w-5 text-green-500" />
                     <span className="text-sm font-medium">{aadhaarFile.name}</span>
+                    <span className="text-xs text-gray-500">
+                      ({(aadhaarFile.size / (1024 * 1024)).toFixed(2)} MB)
+                    </span>
                   </div>
                 ) : (
                   <div>
                     <p className="text-sm text-gray-500">Click to select Aadhaar Card (PDF/JPG/PNG)</p>
+                    <p className="text-xs text-gray-400 mt-1">Max size: 2MB</p>
                   </div>
                 )}
               </div>
@@ -197,10 +219,14 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onDocumentsUploaded }) 
                   <div className="flex items-center justify-center space-x-2">
                     <Check className="h-5 w-5 text-green-500" />
                     <span className="text-sm font-medium">{panFile.name}</span>
+                    <span className="text-xs text-gray-500">
+                      ({(panFile.size / (1024 * 1024)).toFixed(2)} MB)
+                    </span>
                   </div>
                 ) : (
                   <div>
                     <p className="text-sm text-gray-500">Click to select PAN Card (PDF/JPG/PNG)</p>
+                    <p className="text-xs text-gray-400 mt-1">Max size: 2MB</p>
                   </div>
                 )}
               </div>
